@@ -14,7 +14,7 @@
             </div>
         @endif
 
-        <form class="mt-5" action="{{ route('admin.projects.store') }}" method="POST">
+        <form class="mt-5" action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
@@ -44,6 +44,11 @@
                         <label for="tecnology-{{$tecnology->id}}">{{$tecnology->name}}</label>
                     </div>
                 @endforeach
+            </div>
+
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Default file input example</label>
+                <input class="form-control" type="file" id="formFile">
             </div>
 
             <button class="btn btn-success" type="submit">Salva</button>
