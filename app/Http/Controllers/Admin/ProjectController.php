@@ -11,6 +11,7 @@ use App\Models\Tecnology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 // use Illuminate\Support\Str;
 use Spatie\LaravelIgnition\Http\Requests\UpdateConfigRequest;
 
@@ -54,12 +55,22 @@ class ProjectController extends Controller
         $form_data = $request->validated();
         $project = new Project();
         $project->fill($form_data);
+
+        if ($request->hasFile('cover_image')) {
+            $path = Storage::put('project_images', $request->cover_image);
+            $project->cover_image = $path;
+        }
+
         $project->user_id = Auth::id();
         $project->save();
 
         if ($request->has('tecnologies')) {
+            // dd($request->tecnologies);
             $project->tecnologies()->attach($request->tecnologies);
         }
+
+
+
 
         return redirect()->route('admin.projects.show', ['project' => $project->slug]);
     }
