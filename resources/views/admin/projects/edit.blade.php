@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form class="mt-5" action="{{ route('admin.projects.update', ['project' => $project->slug]) }}" method="POST">
+        <form class="mt-5" action="{{ route('admin.projects.update', ['project' => $project->slug]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -29,6 +29,19 @@
                 <label for="decription" class="form-label">Descrizione Progetto</label>
                 <textarea class="form-control" id="decription" rows="5" name="description">{{ old('description') ?? $project->description }}</textarea>
             </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="cover_image">Default file input example</label>
+                <input class="form-control" type="file" id="cover_image" name="cover_image">
+            </div>
+
+            @if ($project->cover_image)
+                <div>
+                    <img src="{{ asset('storage/' . $project->cover_image)}}" alt="">
+                </div>
+            @else
+                <p>Nessuna immagine presente</p>
+            @endif
 
             <div class="mb-3">
                 <label for="type">Linguaggio Principale</label>

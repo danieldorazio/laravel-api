@@ -14,6 +14,15 @@
             Data: {{ $project->created_at }}
         </div>
 
+        @if ($project->cover_image)
+            <div>
+                <img src="{{ asset('storage/'. $project->cover_image) }}" alt="">
+            </div>
+            
+        @else
+            <p>Nessuna immagine presente</p>
+        @endif 
+
         <div>
             Tecnologie:
             @if (count($project->tecnologies) > 0)

@@ -14,6 +14,7 @@
                         <th scope="col">id</th>
                         <th scope="col">Titolo</th>
                         <th scope="col">Linguaggio Principale</th>
+                        <th scope="col">IMMAGINE</th>
                         <th scope="col">Data</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -25,6 +26,7 @@
                             <td>{{ $project->title }}</td>
                             <td>{{ $project->type ? $project->type->name : 'NON DEF'}}</td>
                             <td>{{ $project->created_at }}</td>
+                            <td>{{ $project->cover_image ? 'PRESENTE' : 'NON DEF'}}</td>
                             <td>
                                 <a class="btn btn-info"
                                     href="{{ route('admin.projects.show', ['project' => $project->slug]) }}">DETTAGLI</a>
