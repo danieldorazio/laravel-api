@@ -51,7 +51,6 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-
         $form_data = $request->validated();
         $project = new Project();
         $project->fill($form_data);
@@ -68,10 +67,6 @@ class ProjectController extends Controller
             // dd($request->tecnologies);
             $project->tecnologies()->attach($request->tecnologies);
         }
-
-
-
-
         return redirect()->route('admin.projects.show', ['project' => $project->slug]);
     }
 
@@ -84,9 +79,6 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $this->checkUser($project);
-
-
-
         // $project = Project::where('slug', $slug)->first();
         return view('admin.projects.show', compact('project'));
     }
@@ -116,11 +108,19 @@ class ProjectController extends Controller
     {
         $form_data = $request->validated();
 
-        if (!$project) {
-            abort(404);
+        if($request->hasFile('cover_image')) {
+            if($project->cover_image) {
+                Storage::delete($project->cover_image);
+            }
+            
+            $path = Storage::put('project_images', $request->cover_image);
+            $form_data['cover_image'] = $path;
+            
         }
+
         // $update_project->slug = Str::slug($update_project->title, '-');
         $project->update($form_data);
+        
 
         if ($request->has('tecnologies')) {
             $project->tecnologies()->sync($request->tecnologies);
@@ -139,10 +139,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-
         $this->checkUser($project);
         $project->delete();
-
+        
         return redirect()->route('admin.projects.index');
     }
 

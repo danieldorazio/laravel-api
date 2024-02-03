@@ -14,7 +14,7 @@ class Project extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['type_id', 'title', 'description', 'slug'];
+    protected $fillable = ['type_id', 'title', 'description', 'slug', 'cover_image'];
 
     public function setTitleAttribute($_title) {
         $this->attributes['title'] = $_title;

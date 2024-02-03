@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use function PHPUnit\Framework\isNull;
 
@@ -23,6 +24,7 @@ class CanceledController extends Controller
 
     public function defDelite($id) {
         $project = Project::withTrashed()->find($id);
+        Storage::delete($project->cover_image);
         $project->forceDelete();
 
         return redirect()->route('admin.canceled');
