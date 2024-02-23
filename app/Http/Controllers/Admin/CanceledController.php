@@ -27,14 +27,18 @@ class CanceledController extends Controller
         Storage::delete($project->cover_image);
         $project->forceDelete();
 
-        return redirect()->route('admin.canceled');
-        
+        return redirect()->route('admin.canceled');  
     }
 
-    public function defDeliteAll() {
-        $projects = Project::onlyTrashed();
-        $projects->forceDelete();
+    
 
+    public function defDeliteAll() {
+        $projects = Project::onlyTrashed()->get();
+        foreach ($projects as $project) { 
+            Storage::delete($project->cover_image); 
+            $project->forceDelete();
+        }
+    
         return redirect()->route('admin.canceled');
     }
 }
